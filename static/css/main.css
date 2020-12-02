@@ -44,3 +44,49 @@ html, body {
     background: #fff;
 }
 
+.chat {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #495464;
+    border-radius: 10px;
+    overflow:auto;
+    overflow:scroll;
+    overflow-x: hidden;
+    max-height: 500px;
+}
+.position-left {
+    align-self: flex-start;
+    border: 2px solid #495464;
+    padding: 5px;
+    border-radius: 15px;
+    background-color: #bbbfca;
+    margin: 5px;
+}
+.position-right {
+    align-self: flex-end;
+    border: 2px solid #495464;
+    padding: 5px;
+    border-radius: 15px;
+    background-color: #bbbfca;
+    margin: 5px;
+}
+
+
+.users {
+    border-radius: 20px;
+    background-color:#bbbfca;
+    border: 2px solid #495464;
+}
+
+.registered {
+    border: 2px solid #495464;
+    border-radius: 15px;
+    margin: 2px;
+    padding: 5px;
+    background-color: #f4f4f2;
+}
+
+.del {
+    border-radius: 5px;
+    border: 2px solid #495464;
+}

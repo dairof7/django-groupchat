@@ -16,7 +16,7 @@ class Users(models.Model):
         verbose_name_plural = 'Usuarios'
     
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return str(self.user)
 
 class Messages(models.Model):
     text = models.CharField(max_length=200)

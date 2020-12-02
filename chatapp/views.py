@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
 from users.models import Messages, Users
+import datetime
 
 def LoginView(request):
     """View to render the login view
@@ -20,6 +21,9 @@ def LoginView(request):
         if user:
             login(request, user)
             # Redirect to home - react frontend
+            who_is_logged = Users.objects.get(user=user)
+            who_is_logged.date_time = datetime.datetime.now()
+            who_is_logged.save()
             return redirect('chat')
         else:
             return render(request, 'login.html', {'error': 'Invalid Username or Password'})
@@ -27,7 +31,31 @@ def LoginView(request):
 
 @login_required
 def ChatView(request):
-    return render(request, 'chat.html')
+    msg = reversed(Messages.objects.all().order_by('-date_time')[:15])
+    users = reversed(Users.objects.all().order_by('-date_time')[:15])
+    
+    username = str(request.user)
+
+    return render(request, 'chat.html', {
+        'messages': msg,
+        'username': username,
+        'users': users,
+        })
+
+@login_required
+def Msg(request):
+    if request.method == 'POST':
+        text = request.POST['text']
+        username = request.user
+        user = Users.objects.get(user=username)
+        message = Messages.objects.create(text=text, user=user, date_time=datetime.datetime.now())
+    return redirect('chat')
+
+@login_required
+def MsgDel(request, pk):
+    Messages.objects.get(id=pk).delete()
+    return redirect('chat')
+
 
 @login_required
 def LogoutView(request):
@@ -77,3 +105,5 @@ def SignupView(request):
             return render(request, 'signup.html', {'error': error})
 
     return render(request, 'signup.html')
+
+
